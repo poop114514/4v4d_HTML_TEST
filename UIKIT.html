@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToonUI Design System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #f8fafc;
+            background-image: radial-gradient(#cbd5e1 20%, transparent 20%), radial-gradient(#cbd5e1 20%, transparent 20%);
+            background-position: 0 0, 10px 10px;
+            background-size: 20px 20px;
+        }
+
+        /* --- 核心组件类 (UI Kit Core) --- */
+
+        /* 基础边框和阴影 */
+        .toon-border {
+            border: 3px solid #000;
+        }
+
+        /* 1. 容器/卡片 */
+        .toon-card {
+            border: 3px solid #000;
+            box-shadow: 6px 6px 0px #000;
+            background-color: white;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .toon-card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 8px 8px 0px #000;
+        }
+
+        /* 2. 按钮 (变体) */
+        .toon-btn {
+            border: 3px solid #000;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: 4px 4px 0px #000;
+            transition: all 0.15s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .toon-btn:active:not(:disabled) {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #000;
+        }
+        .toon-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            box-shadow: none;
+            background-color: #e2e8f0;
+            border-color: #94a3b8;
+            color: #94a3b8;
+        }
+
+        /* 按钮颜色变体 */
+        .toon-btn-primary { background-color: #38BDF8; color: black; } /* Sky */
+        .toon-btn-secondary { background-color: white; color: black; }
+        .toon-btn-dark { background-color: black; color: white; }
+        .toon-btn-success { background-color: #4ade80; color: black; } /* Green */
+        .toon-btn-danger { background-color: #ef4444; color: white; } /* Red */
+        .toon-btn-warning { background-color: #facc15; color: black; } /* Yellow */
+
+        /* 3. 输入框 */
+        .toon-input {
+            width: 100%;
+            border: 3px solid #000;
+            padding: 0.75rem 1rem;
+            font-weight: 700;
+            background-color: #f8fafc;
+            box-shadow: 4px 4px 0px #cbd5e1;
+            transition: all 0.2s;
+        }
+        .toon-input:focus {
+            outline: none;
+            background-color: #fff;
+            box-shadow: 4px 4px 0px #38BDF8;
+            transform: translate(-2px, -2px);
+        }
+
+        /* 4. 徽章/标签 */
+        .toon-badge {
+            border: 2px solid #000;
+            padding: 0.25rem 0.75rem;
+            font-weight: 800;
+            font-size: 0.75rem;
+            box-shadow: 2px 2px 0px #000;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        /* 5. 提示框 (Alert) */
+        .toon-alert {
+            border: 3px solid #000;
+            padding: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            box-shadow: 5px 5px 0px rgba(0,0,0,0.2);
+        }
+
+        /* 6. 自定义 Checkbox */
+        .toon-checkbox {
+            appearance: none;
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 3px solid #000;
+            background-color: white;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 2px 2px 0px #cbd5e1;
+        }
+        .toon-checkbox:checked {
+            background-color: #38BDF8;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+            background-size: 80%;
+            background-position: center;
+            background-repeat: no-repeat;
+            box-shadow: 2px 2px 0px #000;
+        }
+
+        /* 7. 切换开关 (Toggle) */
+        .toon-toggle {
+            appearance: none;
+            width: 3.5rem;
+            height: 1.75rem;
+            border: 3px solid #000;
+            border-radius: 999px;
+            background-color: #e2e8f0;
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .toon-toggle::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 1.25rem;
+            height: 1.25rem;
+            background-color: black;
+            border-radius: 50%;
+            transition: transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+        .toon-toggle:checked {
+            background-color: #38BDF8;
+        }
+        .toon-toggle:checked::after {
+            transform: translateX(1.75rem);
+            background-color: white;
+            border: 2px solid black;
+        }
+
+        /* 8. 轮播 (Carousel) */
+        .toon-carousel {
+            position: relative;
+            overflow: hidden;
+            border: 3px solid #000;
+            box-shadow: 6px 6px 0px #000;
+            background: white;
+        }
+        .toon-carousel-track {
+            display: flex;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .toon-carousel-slide {
+            min-width: 100%;
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 900;
+            border-right: 3px solid #000;
+        }
+        .toon-carousel-slide:last-child {
+            border-right: none;
+        }
+
+        /* --- 布局辅助 --- */
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .section-title::before {
+            content: '#';
+            color: #38BDF8;
+        }
+
+        /* 隐藏滚动条样式 */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-left: 2px solid #000; }
+        ::-webkit-scrollbar-thumb { background: #000; border: 2px solid #fff; }
+        ::-webkit-scrollbar-thumb:hover { background: #38BDF8; }
+    </style>
+</head>
+<body class="min-h-screen flex text-slate-900">
+
+    <!-- 侧边导航 (固定) -->
+    <aside class="w-64 bg-white border-r-4 border-black fixed h-full overflow-y-auto hidden md:block z-20">
+        <div class="p-6 border-b-4 border-black bg-sky-400">
+            <div class="flex items-center gap-2">
+                <i data-lucide="package" class="w-8 h-8 stroke-[3px]"></i>
+                <span class="text-2xl font-black italic">Toon<span class="text-white">UI</span></span>
+            </div>
+            <div class="mt-2 text-xs font-bold border-2 border-black inline-block px-2 bg-white">v1.1.0 KIT</div>
+        </div>
+        <nav class="p-4 space-y-1">
+            <a href="#colors" class="block p-3 font-bold hover:bg-sky-100 hover:translate-x-1 transition-transform border-2 border-transparent hover:border-black rounded">色彩 Colors</a>
+            <a href="#typography" class="block p-3 font-bold hover:bg-sky-100 hover:translate-x-1 transition-transform border-2 border-transparent hover:border-black rounded">排版 Typography</a>
+            <a href="#buttons" class="block p-3 font-bold hover:bg-sky-100 hover:translate-x-1 transition-transform border-2 border-transparent hover:border-black rounded">按钮 Buttons</a>
+            <a href="#inputs" class="block p-3 font-bold hover:bg-sky-100 hover:translate-x-1 transition-transform border-2 border-transparent hover:border-black rounded">表单 Forms</a>
+            <a href="#search" class="block p-3 font-bold hover:bg-sky-100 hover:translate-x-1 transition-transform border-2 border-transparent hover:border-black rounded">搜索 Search <span class="text-xs text-sky-600 ml-1">NEW</span></a>
+            <a href="#navigation" class="block p-3 font-bold hover:bg-sky-100 hover:translate-x-1 transition-transform border-2 border-transparent hover:border-black rounded">导航 Navbar <span class="text-xs text-sky-600 ml-1">NEW</span></a>
+            <a href="#carousel" class="block p-3 font-bold hover:bg-sky-100 hover:translate-x-1 transition-transform border-2 border-transparent hover:border-black rounded">轮播 Carousel <span class="text-xs text-sky-600 ml-1">NEW</span></a>
+            <a href="#cards" class="block p-3 font-bold hover:bg-sky-100 hover:translate-x-1 transition-transform border-2 border-transparent hover:border-black rounded">卡片 Cards</a>
+            <a href="#feedback" class="block p-3 font-bold hover:bg-sky-100 hover:translate-x-1 transition-transform border-2 border-transparent hover:border-black rounded">反馈 Feedback</a>
+        </nav>
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="md:ml-64 flex-1 p-8 md:p-12">
+        <header class="mb-16">
+            <h1 class="text-5xl font-black mb-4">UI 组件库</h1>
+            <p class="text-xl font-medium text-slate-600 border-l-4 border-black pl-4 py-2 bg-white inline-block shadow-[4px_4px_0px_#cbd5e1]">
+                基于三渲二 (Cel Shading) 风格构建的基础设计系统。
+            </p>
+        </header>
+
+        <!-- 1. 色彩 -->
+        <section id="colors" class="mb-20">
+            <h2 class="section-title">色彩规范 Palette</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <!-- 主色 -->
+                <div class="space-y-2">
+                    <div class="h-24 bg-sky-400 border-3 border-black shadow-[4px_4px_0px_#000]"></div>
+                    <div class="font-bold">Primary</div>
+                    <div class="text-xs text-slate-500 font-mono">bg-sky-400</div>
+                </div>
+                <!-- 强调色 -->
+                <div class="space-y-2">
+                    <div class="h-24 bg-yellow-400 border-3 border-black shadow-[4px_4px_0px_#000]"></div>
+                    <div class="font-bold">Accent</div>
+                    <div class="text-xs text-slate-500 font-mono">bg-yellow-400</div>
+                </div>
+                <!-- 黑色 -->
+                <div class="space-y-2">
+                    <div class="h-24 bg-black border-3 border-black shadow-[4px_4px_0px_#94a3b8]"></div>
+                    <div class="font-bold">Ink Black</div>
+                    <div class="text-xs text-slate-500 font-mono">bg-black</div>
+                </div>
+                <!-- 警告色 -->
+                <div class="space-y-2">
+                    <div class="h-24 bg-red-500 border-3 border-black shadow-[4px_4px_0px_#000]"></div>
+                    <div class="font-bold">Danger</div>
+                    <div class="text-xs text-slate-500 font-mono">bg-red-500</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. 排版 -->
+        <section id="typography" class="mb-20">
+            <h2 class="section-title">排版 Typography</h2>
+            <div class="toon-card p-8 space-y-6">
+                <div>
+                    <h1 class="text-4xl font-black border-b-4 border-black pb-2 inline-block">Heading 1</h1>
+                    <p class="text-sm text-slate-400 font-mono mt-1">Font-black / 4xl</p>
+                </div>
+                <div>
+                    <h2 class="text-3xl font-bold">Heading 2</h2>
+                    <p class="text-sm text-slate-400 font-mono mt-1">Font-bold / 3xl</p>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold">Heading 3</h3>
+                </div>
+                <div class="bg-slate-100 p-4 border-l-4 border-black">
+                    <p class="text-lg font-medium leading-relaxed">
+                        这是正文文本示例。为了配合漫画风格，我们使用 Noto Sans SC 并保持较高的字重（Medium 500+）。行高稍微宽松一些，以提升阅读体验。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. 按钮 -->
+        <section id="buttons" class="mb-20">
+            <h2 class="section-title">按钮 Buttons</h2>
+            <div class="space-y-8">
+                <!-- 样式变体 -->
+                <div class="p-6 bg-white border-3 border-black border-dashed">
+                    <h3 class="font-bold mb-4 text-slate-500">Variants</h3>
+                    <div class="flex flex-wrap gap-4">
+                        <button class="toon-btn toon-btn-primary px-6 py-3">Primary</button>
+                        <button class="toon-btn toon-btn-secondary px-6 py-3">Secondary</button>
+                        <button class="toon-btn toon-btn-dark px-6 py-3">Dark</button>
+                        <button class="toon-btn toon-btn-warning px-6 py-3">Warning</button>
+                        <button class="toon-btn toon-btn-danger px-6 py-3">Danger</button>
+                        <button class="toon-btn px-6 py-3" disabled>Disabled</button>
+                    </div>
+                </div>
+
+                <!-- 尺寸变体 -->
+                <div class="p-6 bg-white border-3 border-black border-dashed">
+                    <h3 class="font-bold mb-4 text-slate-500">Sizes</h3>
+                    <div class="flex flex-wrap items-end gap-4">
+                        <button class="toon-btn toon-btn-primary px-3 py-1 text-sm">Small</button>
+                        <button class="toon-btn toon-btn-primary px-6 py-3 text-base">Medium</button>
+                        <button class="toon-btn toon-btn-primary px-8 py-4 text-xl">Large Button</button>
+                    </div>
+                </div>
+
+                <!-- 带图标 -->
+                <div class="p-6 bg-white border-3 border-black border-dashed">
+                    <h3 class="font-bold mb-4 text-slate-500">With Icons</h3>
+                    <div class="flex flex-wrap gap-4">
+                        <button class="toon-btn toon-btn-dark px-6 py-3 gap-2">
+                            <i data-lucide="download" class="w-5 h-5"></i> Download
+                        </button>
+                        <button class="toon-btn toon-btn-secondary px-6 py-3 gap-2">
+                            Settings <i data-lucide="settings" class="w-5 h-5"></i>
+                        </button>
+                        <button class="toon-btn toon-btn-warning p-3 rounded-full">
+                            <i data-lucide="plus" class="w-6 h-6"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. 表单 -->
+        <section id="inputs" class="mb-20">
+            <h2 class="section-title">表单 Forms</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="space-y-6">
+                    <!-- 文本输入 -->
+                    <div>
+                        <label class="block font-bold mb-2">用户名</label>
+                        <input type="text" class="toon-input" placeholder="输入你的名字...">
+                    </div>
+                    
+                    <!-- 状态 -->
+                    <div>
+                        <label class="block font-bold mb-2">带图标输入</label>
+                        <div class="relative">
+                            <i data-lucide="mail" class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5"></i>
+                            <input type="email" class="toon-input pl-10" placeholder="email@example.com">
+                        </div>
+                    </div>
+
+                    <!-- 文本域 -->
+                    <div>
+                        <label class="block font-bold mb-2">留言</label>
+                        <textarea class="toon-input h-32" placeholder="写点什么..."></textarea>
+                    </div>
+                </div>
+
+                <div class="space-y-6 p-6 bg-white border-3 border-black">
+                    <h3 class="font-bold border-b-2 border-slate-200 pb-2 mb-4">选择控件</h3>
+                    
+                    <!-- Checkbox -->
+                    <label class="flex items-center gap-3 cursor-pointer group">
+                        <input type="checkbox" class="toon-checkbox">
+                        <span class="font-bold group-hover:text-sky-500 transition-colors">同意条款 (Checkbox)</span>
+                    </label>
+
+                    <label class="flex items-center gap-3 cursor-pointer group">
+                        <input type="checkbox" class="toon-checkbox" checked>
+                        <span class="font-bold group-hover:text-sky-500 transition-colors">默认选中</span>
+                    </label>
+
+                    <!-- Toggle -->
+                    <div class="flex items-center gap-4 pt-4 border-t-2 border-dashed border-slate-300">
+                        <span class="font-bold">飞行模式</span>
+                        <input type="checkbox" class="toon-toggle">
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="font-bold">暗黑模式</span>
+                        <input type="checkbox" class="toon-toggle" checked>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 5. 搜索 (NEW) -->
+        <section id="search" class="mb-20">
+            <h2 class="section-title">搜索 Search</h2>
+            <div class="grid md:grid-cols-2 gap-8 items-end">
+                <!-- 基础搜索 -->
+                <div class="space-y-2">
+                    <label class="block font-bold">标准搜索组合</label>
+                    <div class="flex gap-2">
+                        <input type="text" class="toon-input flex-1" placeholder="搜索关键词...">
+                        <button class="toon-btn toon-btn-primary px-4">
+                            <i data-lucide="search" class="w-6 h-6"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 浮动风格搜索 -->
+                <div class="bg-sky-200 p-6 border-3 border-black relative overflow-hidden">
+                    <div class="relative">
+                         <input type="text" class="w-full border-3 border-black p-4 pl-12 shadow-[4px_4px_0px_rgba(0,0,0,0.2)] font-bold focus:outline-none focus:shadow-[4px_4px_0px_#000] transition-all" placeholder="全局搜索...">
+                         <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 text-slate-500"></i>
+                         <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold border-2 border-slate-300 px-1 text-slate-400 rounded">⌘K</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. 导航 (NEW) -->
+        <section id="navigation" class="mb-20">
+            <h2 class="section-title">导航 Navbar</h2>
+            <div class="space-y-8">
+                
+                <!-- 顶部导航演示 -->
+                <div class="border-3 border-black bg-slate-100 overflow-hidden">
+                    <div class="bg-white border-b-3 border-black p-4 flex justify-between items-center shadow-sm">
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 bg-sky-400 border-2 border-black"></div>
+                            <span class="font-black text-lg italic">BRAND</span>
+                        </div>
+                        <div class="hidden md:flex gap-6 font-bold text-sm">
+                            <a href="#" class="hover:text-sky-500 hover:underline decoration-4 decoration-sky-300 underline-offset-4">首页</a>
+                            <a href="#" class="hover:text-sky-500 hover:underline decoration-4 decoration-sky-300 underline-offset-4">产品</a>
+                            <a href="#" class="hover:text-sky-500 hover:underline decoration-4 decoration-sky-300 underline-offset-4">关于</a>
+                        </div>
+                        <div class="flex gap-2">
+                            <button class="toon-btn px-4 py-1 text-xs">Login</button>
+                        </div>
+                    </div>
+                    <div class="p-8 text-center text-slate-400 font-bold bg-slate-50">
+                        Page Content Area
+                    </div>
+                </div>
+
+                <!-- 移动端标签栏 (Bottom Tab Bar) -->
+                <div class="border-3 border-black bg-slate-100 overflow-hidden max-w-sm mx-auto relative h-40">
+                    <div class="absolute bottom-0 left-0 w-full bg-white border-t-3 border-black p-2 flex justify-around">
+                         <button class="flex flex-col items-center gap-1 p-1 text-sky-500">
+                             <i data-lucide="home" class="w-6 h-6 stroke-[2.5px]"></i>
+                             <span class="text-[10px] font-bold">Home</span>
+                         </button>
+                         <button class="flex flex-col items-center gap-1 p-1 text-slate-400 hover:text-black">
+                             <i data-lucide="search" class="w-6 h-6 stroke-[2.5px]"></i>
+                             <span class="text-[10px] font-bold">Explore</span>
+                         </button>
+                         <button class="flex flex-col items-center gap-1 p-1 text-slate-400 hover:text-black">
+                             <i data-lucide="user" class="w-6 h-6 stroke-[2.5px]"></i>
+                             <span class="text-[10px] font-bold">Me</span>
+                         </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 7. 轮播 (NEW) -->
+        <section id="carousel" class="mb-20">
+            <h2 class="section-title">轮播 Carousel</h2>
+            
+            <div class="toon-carousel max-w-2xl">
+                <!-- 轨道 -->
+                <div class="toon-carousel-track" id="demo-track">
+                    <div class="toon-carousel-slide bg-sky-200">Slide 1</div>
+                    <div class="toon-carousel-slide bg-yellow-200">Slide 2</div>
+                    <div class="toon-carousel-slide bg-green-200">Slide 3</div>
+                </div>
+                
+                <!-- 覆盖层控件 -->
+                <div class="absolute inset-0 pointer-events-none flex items-center justify-between px-4">
+                    <button onclick="moveCarousel(-1)" class="toon-btn bg-white pointer-events-auto w-10 h-10 rounded-full p-0 shadow-[2px_2px_0px_rgba(0,0,0,1)] hover:scale-110 active:scale-95">
+                        <i data-lucide="chevron-left" class="w-6 h-6"></i>
+                    </button>
+                    <button onclick="moveCarousel(1)" class="toon-btn bg-white pointer-events-auto w-10 h-10 rounded-full p-0 shadow-[2px_2px_0px_rgba(0,0,0,1)] hover:scale-110 active:scale-95">
+                        <i data-lucide="chevron-right" class="w-6 h-6"></i>
+                    </button>
+                </div>
+
+                <!-- 指示器 -->
+                <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                    <div class="w-3 h-3 bg-black border border-white"></div>
+                    <div class="w-3 h-3 bg-white border border-black"></div>
+                    <div class="w-3 h-3 bg-white border border-black"></div>
+                </div>
+            </div>
+
+            <script>
+                // 简单的轮播逻辑
+                let currentSlide = 0;
+                function moveCarousel(direction) {
+                    const track = document.getElementById('demo-track');
+                    const slides = track.children;
+                    const maxSlides = slides.length;
+                    
+                    currentSlide += direction;
+                    if (currentSlide < 0) currentSlide = maxSlides - 1;
+                    if (currentSlide >= maxSlides) currentSlide = 0;
+                    
+                    track.style.transform = `translateX(-${currentSlide * 100}%)`;
+                }
+            </script>
+        </section>
+
+        <!-- 8. 卡片 -->
+        <section id="cards" class="mb-20">
+            <h2 class="section-title">卡片 Cards</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                
+                <!-- 基础卡片 -->
+                <div class="toon-card p-6 flex flex-col items-start">
+                    <div class="bg-yellow-300 border-2 border-black p-2 mb-4 shadow-[3px_3px_0px_#000]">
+                        <i data-lucide="star" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-black mb-2">基础卡片</h3>
+                    <p class="text-slate-600 mb-4 font-medium">这是一个标准的内容容器，带有悬停位移效果。</p>
+                    <a href="#" class="text-sky-500 font-bold hover:underline decoration-2 underline-offset-4">了解更多 -></a>
+                </div>
+
+                <!-- 图片卡片 -->
+                <div class="toon-card p-4">
+                    <div class="h-40 bg-slate-200 border-2 border-black mb-4 flex items-center justify-center overflow-hidden relative">
+                         <div class="absolute inset-0 bg-sky-100 flex items-center justify-center">
+                            <span class="font-black text-slate-300 text-4xl select-none">IMG</span>
+                         </div>
+                    </div>
+                    <h3 class="text-xl font-black mb-1">图片容器</h3>
+                    <p class="text-sm text-slate-500 font-bold">2023.10.24</p>
+                </div>
+
+                <!-- 个人资料卡 -->
+                <div class="toon-card text-center p-0 overflow-hidden">
+                    <div class="h-20 bg-black"></div>
+                    <div class="px-6 pb-6 -mt-10">
+                        <div class="w-20 h-20 bg-white border-3 border-black mx-auto mb-3 flex items-center justify-center">
+                            <i data-lucide="user" class="w-10 h-10"></i>
+                        </div>
+                        <h3 class="text-xl font-black">设计师</h3>
+                        <p class="text-slate-500 font-medium text-sm mb-4">UI / UX Developer</p>
+                        <button class="toon-btn toon-btn-primary w-full py-2 text-sm">Follow</button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 9. 反馈 -->
+        <section id="feedback" class="mb-20">
+            <h2 class="section-title">反馈与提示 Feedback</h2>
+            
+            <div class="space-y-6">
+                <!-- Badges -->
+                <div class="flex flex-wrap gap-4">
+                    <span class="toon-badge bg-sky-200 text-sky-900">
+                        <i data-lucide="tag" class="w-3 h-3"></i> NEW
+                    </span>
+                    <span class="toon-badge bg-red-200 text-red-900">ERROR</span>
+                    <span class="toon-badge bg-green-200 text-green-900">SUCCESS</span>
+                    <span class="toon-badge bg-yellow-200 text-yellow-900">WARNING</span>
+                    <span class="toon-badge bg-black text-white">BETA v1.0</span>
+                </div>
+
+                <!-- Alerts -->
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="toon-alert bg-blue-50 text-blue-900">
+                        <i data-lucide="info" class="w-6 h-6 flex-shrink-0 stroke-[2.5px]"></i>
+                        <div>
+                            <h4 class="font-black text-lg">系统提示</h4>
+                            <p class="font-medium">这是一个标准的系统通知样式，用于显示重要信息。</p>
+                        </div>
+                    </div>
+
+                    <div class="toon-alert bg-yellow-50 text-yellow-900">
+                        <i data-lucide="alert-triangle" class="w-6 h-6 flex-shrink-0 stroke-[2.5px]"></i>
+                        <div>
+                            <h4 class="font-black text-lg">注意</h4>
+                            <p class="font-medium">您的账户尚未验证，请检查邮箱。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Trigger Demo -->
+                <div class="p-8 border-3 border-black bg-slate-100 text-center">
+                    <h3 class="font-bold mb-4">交互组件示例</h3>
+                    <button onclick="document.getElementById('demo-modal').classList.remove('hidden')" class="toon-btn toon-btn-dark px-8 py-3">
+                        打开弹窗演示
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center py-10 border-t-4 border-black text-slate-500 font-bold">
+            <p>ToonUI Kit - Designed for easy copy & paste.</p>
+        </footer>
+    </main>
+
+    <!-- 演示弹窗 Modal -->
+    <div id="demo-modal" class="fixed inset-0 z-50 bg-black/60 hidden flex items-center justify-center backdrop-blur-sm p-4">
+        <div class="bg-white border-4 border-black p-8 max-w-md w-full shadow-[12px_12px_0px_#38BDF8] animate-[bounce-in_0.3s_ease-out]">
+            <div class="flex justify-between items-start mb-6">
+                <h3 class="text-2xl font-black">模态窗口</h3>
+                <button onclick="document.getElementById('demo-modal').classList.add('hidden')" class="hover:bg-slate-100 p-1 border-2 border-transparent hover:border-black transition-all">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <div class="bg-slate-100 p-4 border-2 border-black mb-6 border-dashed">
+                <p class="font-bold text-slate-600">这里是模态窗口的内容区域。你可以放置表单、文本或确认按钮。</p>
+            </div>
+            <div class="flex justify-end gap-4">
+                <button onclick="document.getElementById('demo-modal').classList.add('hidden')" class="toon-btn toon-btn-secondary px-4 py-2">取消</button>
+                <button onclick="document.getElementById('demo-modal').classList.add('hidden')" class="toon-btn toon-btn-primary px-4 py-2">确认操作</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

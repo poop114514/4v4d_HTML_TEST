@@ -1,14 +1,127 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hello World</title>
-  <link href='/style.css' rel='stylesheet'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>欢迎来到 4v4d.top!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Three.js a 3D library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <h1>Hello, world!</h1>
-  <button onclick="console.log('hello');">Press me</button>
-  <script defer type="text/javascript" src="/main.js"></script>
+<body class="min-h-screen text-slate-900">
+
+    <!-- 顶部导航 -->
+    <nav id="navbar" class="sticky top-0 z-30 bg-white border-b-4 border-black shadow-lg py-2">
+        <div class="container mx-auto flex justify-between items-center px-4">
+            <div class="flex items-center gap-2">
+                <i data-lucide="cube" class="w-8 h-8 stroke-[3px] text-sky-500"></i>
+                <span class="text-2xl font-black1">4v4d.top</span>
+            </div>
+            <div class="hidden md:flex gap-6 font-bold">
+                <a href="#about" class="nav-link hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">服务器介绍</a>
+                <a href="#join" class="nav-link hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">进服流程</a>
+                <a href="#contact" class="nav-link hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">联系我们</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main class="container mx-auto p-4 md:p-8">
+
+        <!-- Hero Section -->
+        <section id="pagetop" class="my-12 md:my-16">
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div class="text-center md:text-left">
+                    <h1 class="text-5xl md:text-6xl font-black mb-4 leading-tight">欢迎来到 4v4d.top</h1>
+                    <p class="text-xl md:text-2xl font-medium text-slate-600 mb-6">一个《我的世界》无政府服务器</p>
+                    <div class="toon-card p-4 mb-6">
+                        <p class="font-bold text-lg">服务器IP: <span id="serverIP" class="text-sky-600 font-mono">4v4d.top</span></p>
+                        <div id="serverStatus" class="text-sm text-slate-500 mt-2">正在获取服务器状态...</div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                        <button onclick="copyText()" class="toon-btn toon-btn-primary px-8 py-3 text-lg w-full sm:w-auto">复制IP</button>
+                        <button onclick="fetchServerStatus()" class="toon-btn toon-btn-secondary px-8 py-3 text-lg w-full sm:w-auto">刷新状态</button>
+                    </div>
+                </div>
+                <div id="hero-3d-container" class="h-64 md:h-96 w-full"></div>
+            </div>
+        </section>
+
+        <!-- 服务器介绍 -->
+        <section id="about" class="mb-20">
+            <h2 class="section-title text-3xl">服务器介绍</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="toon-card p-6 flex flex-col items-start">
+                    <div class="bg-sky-200 border-2 border-black p-3 mb-4 shadow-[3px_3px_0px_#000]">
+                        <i data-lucide="swords" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-2xl font-black mb-2">无政府</h3>
+                    <p class="text-slate-600 font-medium">没有规则，没有限制！你可以随心所欲地破坏与创造，体验最纯粹的自由。</p>
+                </div>
+                <div class="toon-card p-6 flex flex-col items-start">
+                    <div class="bg-yellow-200 border-2 border-black p-3 mb-4 shadow-[3px_3px_0px_#000]">
+                        <i data-lucide="shield" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-2xl font-black mb-2">生存</h3>
+                    <p class="text-slate-600 font-medium">在无规则、无物资的出生点开始挑战，建造基地，寻找并掠夺他人的资源。</p>
+                </div>
+                <div class="toon-card p-6 flex flex-col items-start">
+                    <div class="bg-green-200 border-2 border-black p-3 mb-4 shadow-[3px_3px_0px_#000]">
+                        <i data-lucide="box" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-2xl font-black mb-2">Dupe</h3>
+                    <p class="text-slate-600 font-medium">悄悄告诉你：本服务器可以使用 `/dupe` 命令复制物品哦～</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 进服流程 -->
+        <section id="join" class="mb-20">
+            <h2 class="section-title text-3xl">进服方法</h2>
+            <div class="toon-card p-8 md:p-12">
+                <ul class="list-decimal list-inside space-y-4 font-bold text-lg">
+                    <li>打开《我的世界》Java版 (版本 1.12.2 - 1.20.x)。</li>
+                    <li>点击 “多人游戏”，然后点击 “添加服务器”。</li>
+                    <li>在服务器地址栏输入 <strong class="text-sky-600">4v4d.top</strong>。</li>
+                    <li>点击 “完成”，然后加入服务器，开始你的无政府之旅！</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 联系我们 -->
+        <section id="contact" class="mb-20">
+            <h2 class="section-title text-3xl">联系我们</h2>
+            <div class="toon-card p-8 text-center">
+                <p class="text-xl mb-6">有任何问题或建议？欢迎加入我们的社群！</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-6">
+                    <div class="toon-card p-6 flex-1">
+                        <i data-lucide="message-square" class="w-12 h-12 mx-auto mb-4 text-blue-500"></i>
+                        <h3 class="text-2xl font-black mb-2">QQ群</h3>
+                        <p class="text-xl font-mono text-slate-700">722317724</p>
+                    </div>
+                    <div class="toon-card p-6 flex-1">
+                         <i data-lucide="send" class="w-12 h-12 mx-auto mb-4 text-sky-500"></i>
+                        <h3 class="text-2xl font-black mb-2">Telegram</h3>
+                        <a href="https://t.me/org4v4d" target="_blank" class="text-xl font-mono text-sky-600 hover:underline">@org4v4d</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-black text-white p-8">
+        <div class="container mx-auto text-center">
+             <div class="flex justify-center gap-6 mb-4">
+            </div>
+            <p class="font-bold">&copy; 2024 4v4d.top. 保留所有权利.</p>
+             <p class="text-sm text-slate-400 mt-2">WEBUI BY <a href="https://aboutme.hxdha.top" class="hover:text-sky-400">A181</a></p>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
 </body>
 </html>
