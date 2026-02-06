@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 页面未找到 - ToonUI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #f8fafc;
+            background-image: radial-gradient(#cbd5e1 20%, transparent 20%), radial-gradient(#cbd5e1 20%, transparent 20%);
+            background-position: 0 0, 10px 10px;
+            background-size: 20px 20px;
+        }
+
+        /* --- 核心组件类 (UI Kit Core) --- */
+
+        /* 基础边框和阴影 */
+        .toon-border {
+            border: 3px solid #000;
+        }
+
+        /* 1. 容器/卡片 */
+        .toon-card {
+            border: 3px solid #000;
+            box-shadow: 6px 6px 0px #000;
+            background-color: white;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .toon-card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 8px 8px 0px #000;
+        }
+
+        /* 2. 按钮 (变体) */
+        .toon-btn {
+            border: 3px solid #000;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: 4px 4px 0px #000;
+            transition: all 0.15s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .toon-btn:active:not(:disabled) {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #000;
+        }
+        .toon-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            box-shadow: none;
+            background-color: #e2e8f0;
+            border-color: #94a3b8;
+            color: #94a3b8;
+        }
+
+        /* 按钮颜色变体 */
+        .toon-btn-primary { background-color: #38BDF8; color: black; } /* Sky */
+        .toon-btn-secondary { background-color: white; color: black; }
+        .toon-btn-dark { background-color: black; color: white; }
+        .toon-btn-success { background-color: #4ade80; color: black; } /* Green */
+        .toon-btn-danger { background-color: #ef4444; color: white; } /* Red */
+        .toon-btn-warning { background-color: #facc15; color: black; } /* Yellow */
+
+        /* 3. 输入框 */
+        .toon-input {
+            width: 100%;
+            border: 3px solid #000;
+            padding: 0.75rem 1rem;
+            font-weight: 700;
+            background-color: #f8fafc;
+            box-shadow: 4px 4px 0px #cbd5e1;
+            transition: all 0.2s;
+        }
+        .toon-input:focus {
+            outline: none;
+            background-color: #fff;
+            box-shadow: 4px 4px 0px #38BDF8;
+            transform: translate(-2px, -2px);
+        }
+
+        /* 4. 徽章/标签 */
+        .toon-badge {
+            border: 2px solid #000;
+            padding: 0.25rem 0.75rem;
+            font-weight: 800;
+            font-size: 0.75rem;
+            box-shadow: 2px 2px 0px #000;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        /* 5. 提示框 (Alert) */
+        .toon-alert {
+            border: 3px solid #000;
+            padding: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            box-shadow: 5px 5px 0px rgba(0,0,0,0.2);
+        }
+
+        /* 6. 自定义 Checkbox */
+        .toon-checkbox {
+            appearance: none;
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 3px solid #000;
+            background-color: white;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 2px 2px 0px #cbd5e1;
+        }
+        .toon-checkbox:checked {
+            background-color: #38BDF8;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+            background-size: 80%;
+            background-position: center;
+            background-repeat: no-repeat;
+            box-shadow: 2px 2px 0px #000;
+        }
+
+        /* 7. 切换开关 (Toggle) */
+        .toon-toggle {
+            appearance: none;
+            width: 3.5rem;
+            height: 1.75rem;
+            border: 3px solid #000;
+            border-radius: 999px;
+            background-color: #e2e8f0;
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .toon-toggle::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 1.25rem;
+            height: 1.25rem;
+            background-color: black;
+            border-radius: 50%;
+            transition: transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+        .toon-toggle:checked {
+            background-color: #38BDF8;
+        }
+        .toon-toggle:checked::after {
+            transform: translateX(1.75rem);
+            background-color: white;
+            border: 2px solid black;
+        }
+
+        /* 8. 轮播 (Carousel) */
+        .toon-carousel {
+            position: relative;
+            overflow: hidden;
+            border: 3px solid #000;
+            box-shadow: 6px 6px 0px #000;
+            background: white;
+        }
+        .toon-carousel-track {
+            display: flex;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .toon-carousel-slide {
+            min-width: 100%;
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 900;
+            border-right: 3px solid #000;
+        }
+        .toon-carousel-slide:last-child {
+            border-right: none;
+        }
+
+        /* --- 布局辅助 --- */
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .section-title::before {
+            content: '#';
+            color: #38BDF8;
+        }
+
+        /* 隐藏滚动条样式 */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-left: 2px solid #000; }
+        ::-webkit-scrollbar-thumb { background: #000; border: 2px solid #fff; }
+        ::-webkit-scrollbar-thumb:hover { background: #38BDF8; }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center text-slate-900">
+    <main class="max-w-xl w-full px-6">
+        <section class="toon-card p-8 md:p-10 text-center">
+            <div class="flex flex-col items-center gap-4">
+                <span class="toon-badge bg-yellow-200 text-yellow-900 uppercase tracking-widest">
+                    Error
+                </span>
+                <h1 class="text-6xl md:text-7xl font-black leading-none">
+                    404
+                </h1>
+                <p class="text-lg md:text-xl font-medium text-slate-600">
+                    Surry This page was eatten by xhGG.
+                </p>
+                <p class="text-sm text-slate-500 font-bold">
+                    你可以检查一下网址是否正确，或者回到安全的首页。
+                </p>
+                <div class="flex flex-wrap gap-4 justify-center mt-4">
+                    <a href="/" class="toon-btn toon-btn-primary px-6 py-3 gap-2">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                        <span>Back</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
