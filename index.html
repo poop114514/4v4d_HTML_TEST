@@ -8,7 +8,10 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
+
         body {
+            cursor: url('https://cdn.cursors-4u.net/previews/north-korea-flag-orb-10300e66-32.webp'), auto !important;
             font-family: 'Noto Sans SC', sans-serif;
             background-color: #f8fafc;
             background-image: radial-gradient(#cbd5e1 20%, transparent 20%), radial-gradient(#cbd5e1 20%, transparent 20%);
@@ -27,8 +30,34 @@
             transition: transform 0.2s, box-shadow 0.2s;
         }
         .toon-card:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: 8px 8px 0px #000;
+            transform: translate(-502px, -306px) rotate(-22deg) scale(1.18) skew(-14deg, 8deg);
+            box-shadow: 28px 28px 0px #000;
+        }
+
+        /* 与 UIKIT.html 一致的提示框 */
+        .toon-alert {
+            border: 3px solid #000;
+            padding: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.2);
+        }
+
+        #transform-toast {
+            position: fixed;
+            top: 5.5rem;
+            right: 1rem;
+            z-index: 50;
+            max-width: min(22rem, calc(100vw - 2rem));
+            opacity: 0;
+            transform: translateX(110%);
+            pointer-events: none;
+            transition: opacity 0.25s ease, transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        #transform-toast.is-visible {
+            opacity: 1;
+            transform: translateX(0);
         }
         
         .toon-btn {
@@ -37,15 +66,19 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
             box-shadow: 4px 4px 0px #000;
-            transition: all 0.15s;
+            transition: transform 0.15s, box-shadow 0.15s;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
         }
+        .toon-btn:hover:not(:disabled) {
+            transform: translate(-108px, -104px) rotate(16deg) scale(1.14) skew(10deg, -5deg);
+            box-shadow: 20px 20px 0px #000;
+        }
         .toon-btn:active:not(:disabled) {
-            transform: translate(2px, 2px);
-            box-shadow: 2px 2px 0px #000;
+            transform: translate(104px, 102px) rotate(-10deg) scale(0.88) skew(-6deg, 4deg);
+            box-shadow: 3px 3px 0px #000;
         }
         
         .toon-btn-primary { background-color: #38BDF8; color: black; }
@@ -174,6 +207,11 @@
 
     </main>
 
+    <div id="transform-toast" class="toon-alert bg-yellow-50 text-yellow-900" role="status" aria-live="polite" hidden>
+        <i data-lucide="alert-triangle" class="w-6 h-6 flex-shrink-0 stroke-[2.5px]"></i>
+        <p class="font-bold text-base leading-snug">哎呀，不小心将transform数值调得好离谱喔，下次再搞吧（※下次是啥时候不知道，别问）</p>
+    </div>
+
     <footer class="bg-black text-white p-8">
         <div class="container mx-auto text-center">
              <div class="flex justify-center gap-6 mb-4">
@@ -185,6 +223,39 @@
 
 <script>
     lucide.createIcons();
+
+    // --- 悬停卡片 / 按钮时右上角 Toon 风格提示（与 UIKIT 一致）---
+    const transformToast = document.getElementById('transform-toast');
+    let toastHideTimer = null;
+    let transformToastHoverDepth = 0;
+
+    function showTransformToast() {
+        clearTimeout(toastHideTimer);
+        transformToast.hidden = false;
+        requestAnimationFrame(() => transformToast.classList.add('is-visible'));
+    }
+
+    function hideTransformToast() {
+        transformToast.classList.remove('is-visible');
+        toastHideTimer = setTimeout(() => {
+            transformToast.hidden = true;
+        }, 280);
+    }
+
+    function bindTransformToastHover(el) {
+        el.addEventListener('mouseenter', () => {
+            transformToastHoverDepth++;
+            if (transformToastHoverDepth === 1) showTransformToast();
+        });
+        el.addEventListener('mouseleave', (e) => {
+            if (e.relatedTarget instanceof Node && el.contains(e.relatedTarget)) return;
+            transformToastHoverDepth = Math.max(0, transformToastHoverDepth - 1);
+            if (transformToastHoverDepth === 0) hideTransformToast();
+        });
+    }
+
+    document.querySelectorAll('.toon-card').forEach(bindTransformToastHover);
+    document.querySelectorAll('.toon-btn').forEach(bindTransformToastHover);
 
     // --- 3D Hero Element --- //
     const container = document.getElementById('hero-3d-container');
