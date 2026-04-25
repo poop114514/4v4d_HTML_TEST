@@ -11,7 +11,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
 
         body {
-            cursor: url('https://cdn.cursors-4u.net/previews/north-korea-flag-orb-10300e66-32.webp'), auto !important;
+            cursor: url('/Users/chenminghui/Desktop/py/4v4d_HTML_TEST-main/cursors/ani1043.cur'), auto !important;
             font-family: 'Noto Sans SC', sans-serif;
             background-color: #f8fafc;
             background-image: radial-gradient(#cbd5e1 20%, transparent 20%), radial-gradient(#cbd5e1 20%, transparent 20%);
@@ -53,7 +53,7 @@
             opacity: 0;
             transform: translateX(110%);
             pointer-events: none;
-            transition: opacity 0.25s ease, transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: opacity 0.45s ease, transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
         }
         #transform-toast.is-visible {
             opacity: 1;
@@ -104,6 +104,43 @@
         }
         #hero-3d-container canvas:active {
             cursor: grabbing;
+        }
+
+        #chat-bubble-container {
+            max-width: min(24rem, calc(100vw - 2rem));
+            pointer-events: none;
+        }
+        .toon-chat-bubble {
+            border: 3px solid #000;
+            border-radius: 0;
+            background: #ffffff;
+            color: #000000;
+            box-shadow: 5px 5px 0px #000;
+            font-weight: 700;
+            opacity: 0;
+            transform: translateY(18px) translateX(12px) scale(0.96);
+        }
+        .toon-chat-bubble .chat-emote {
+            color: #0088ea;
+            font-weight: 900;
+        }
+        .toon-chat-bubble.is-entering {
+            animation: bubbleEnter 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        @keyframes bubbleEnter {
+            0% {
+                opacity: 0;
+                transform: translateY(100px) translateX(12px);
+            }
+            60% {
+                opacity: 1;
+                transform: translateY(-3px) translateX(0);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) translateX(0);
+            }
         }
     </style>
 </head>
@@ -216,6 +253,39 @@
              <p class="text-sm text-slate-400 mt-2">WEBUI BY <a href="https://aboutme.hxdha.top" class="hover:text-sky-400">A181</a></p>
         </div>
     </footer>
+
+    <div id="chat-bubble-container" class="fixed bottom-24 right-4 flex flex-col gap-3 items-end z-50 hidden">
+        <div class="chat-bubble toon-chat-bubble px-4 py-3 max-w-xs">
+            <div class="flex items-center gap-2">
+                <span class="chat-emote text-sm">↖(^ω^)↗</span>
+                <span class="text-sm">欢迎来到4v4d！</span>
+            </div>
+        </div>
+        <div class="chat-bubble toon-chat-bubble px-4 py-3 max-w-xs hidden">
+            <div class="flex items-center gap-2">
+                <span class="chat-emote text-sm">o(≧v≦)o</span>
+                <span class="text-sm">服务器在线，快来加入吧～</span>
+            </div>
+        </div>
+        <div class="chat-bubble toon-chat-bubble px-4 py-3 max-w-xs hidden">
+            <div class="flex items-center gap-2">
+                <span class="chat-emote text-sm">Σ（・□・；）</span>
+                <span class="text-sm">无政府服务器等你来挑战</span>
+            </div>
+        </div>
+        <div class="chat-bubble toon-chat-bubble px-4 py-3 max-w-xs hidden">
+            <div class="flex items-center gap-2">
+                <span class="chat-emote text-sm">＼(^o^)／</span>
+                <span class="text-sm">支持/dupe复制物品哦～</span>
+            </div>
+        </div>
+        <div class="chat-bubble toon-chat-bubble px-4 py-2 max-w-xs hidden">
+            <div class="flex items-center gap-2">
+                <span class="chat-emote text-sm">\(//∇//)\</span>
+                <span class="text-sm">感谢访问，欢迎再来～</span>
+            </div>
+        </div>
+    </div>
 
 <script>
     lucide.createIcons();
@@ -333,6 +403,40 @@
     fetchServerStatus();
     document.querySelector("button[onclick='fetchServerStatus()']").addEventListener("click", fetchServerStatus);
     document.querySelector("button[onclick='copyText()']").addEventListener("click", copyText);
+
+    let chatTriggered = false;
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.body.scrollHeight;
+        const winHeight = window.innerHeight;
+
+        if (!chatTriggered && scrollTop + winHeight >= docHeight - 200) {
+            chatTriggered = true;
+
+            const container = document.getElementById('chat-bubble-container');
+            const bubbles = container.querySelectorAll('.chat-bubble');
+            container.classList.remove('hidden');
+
+            // 添加淡入动画效果
+            bubbles.forEach((bubble, index) => {
+                setTimeout(() => {
+                    bubble.classList.remove('hidden');
+                    bubble.classList.remove('is-entering');
+                    void bubble.offsetWidth;
+                    bubble.classList.add('is-entering');
+                }, index * 1000);
+            });
+
+            // 延长显示时间，让用户有更多时间阅读
+            setTimeout(() => {
+                container.classList.add('opacity-0', 'transition-opacity', 'duration-1000');
+                setTimeout(() => {
+                    container.classList.add('hidden');
+                }, 1000); 
+            }, 10000); // 增加到10秒
+        }
+    });
+
 </script>
 </body>
 </html>
