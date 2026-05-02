@@ -7,7 +7,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
 
@@ -180,11 +179,11 @@
         }
 
         .character-container {
-            height: 120px; /* 略大于容器以突出效果 */
-            width: 120px;
+            height: 130px;
+            width: 130px;
             position: absolute;
             right: 40px;
-            bottom: -10px;
+            bottom: -17px;
             z-index: 20;
         }
 
@@ -192,7 +191,6 @@
             height: 100%;
             width: 100%;
             object-fit: cover;
-            /* object-position 设置为 100% 以只显示原图右侧部分 */
             object-position: 247% center;
             filter: drop-shadow(2px 2px 0px white);
         }
@@ -218,16 +216,14 @@
 
         <!-- 施工中(记得删除) -->
         <div class="construction-stripe">
-            <!-- 左侧文本框 -->
             <div class="inner-content">
-                UNDER CONSTRUCTION / 网页施工中
+                WARNING / 网页施工中
             </div>
     
-            <!-- 右侧角色图像 (从原图裁剪) -->
             <div class="character-container">
                 <img 
                     src="https://raw.githubusercontent.com/poop114514/mkxz-html-3/refs/heads/main/image/png.png" 
-                    alt="施工角色" 
+                    alt="丰川祥子（施工版）" 
                     class="character-img"
                     onerror="this.style.display='none'; console.error('图片加载失败');"
                 >
@@ -326,7 +322,7 @@
 
     <div id="transform-toast" class="toon-alert bg-yellow-50 text-yellow-900" role="status" aria-live="polite" hidden>
         <i data-lucide="alert-triangle" class="w-6 h-6 flex-shrink-0 stroke-[2.5px]"></i>
-        <p class="font-bold text-base leading-snug">服务器跑路啦！！！</p>
+        <p class="font-bold text-base leading-snug">服务器跑路啦!</p>
     </div>
 
     <footer class="bg-black text-white p-8">
