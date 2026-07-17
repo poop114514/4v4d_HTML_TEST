@@ -380,12 +380,16 @@
 
         .hero__line--white {
             color: var(--white);
-            -webkit-text-stroke: 3px var(--ink);
+            text-shadow: none;
+            -webkit-text-fill-color: currentColor;
+            -webkit-text-stroke: 0;
         }
 
         .hero__line--yellow {
-            color: var(--eco);
-            -webkit-text-stroke: 3px var(--ink);
+            color: #ffda20;
+            text-shadow: none;
+            -webkit-text-fill-color: currentColor;
+            -webkit-text-stroke: 0;
         }
 
         .hero__subline {
@@ -1254,11 +1258,6 @@
                 font-size: clamp(3.5rem, 19vw, 6rem);
             }
 
-            .hero__line--white,
-            .hero__line--yellow {
-                -webkit-text-stroke: 2px var(--ink);
-            }
-
             .hero__sun {
                 top: 10%;
                 right: -15%;
@@ -1524,7 +1523,7 @@
 
                 <div class="feature-grid">
                     <article class="feature-card">
-                        <span class="feature-card__tag">Rules.exe 已卸载</span>
+                        <span class="feature-card__tag">Rules.jar 已卸载</span>
                         <div class="feature-card__icon"><i data-lucide="swords"></i></div>
                         <h3>无政府</h3>
                         <p>没有领地插件替你关门，也没有 NPC 告诉你下一步。盟友、仇敌与凌晨三点的背叛，全由玩家亲手制造。</p>
