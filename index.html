@@ -1479,9 +1479,9 @@
                             <i data-lucide="copy"></i>
                             复制 IP · 4v4d.top
                         </button>
-                        <a class="button" href="#features">
-                            先看看有多诡异
-                            <i data-lucide="arrow-down-right"></i>
+                        <a class="button" href="https://4v4d.uk/">
+                            先看看玩家对骂
+                            <i data-lucide="arrow-up-right"></i>
                         </a>
                     </div>
                 </div>
@@ -1561,7 +1561,7 @@
                     <span class="section-number">02</span>
                     <div>
                         <p class="section-kicker">Live world transmission</p>
-                        <h2 class="section-title">世界不会等你，<br>它正在持续发生。</h2>
+                        <h2 class="section-title">世界不会等你，<br>它正在持续改变。</h2>
                     </div>
                 </div>
 
@@ -1664,6 +1664,54 @@
 
     <script>
         window.addEventListener("DOMContentLoaded", () => {
+            const serverStatus = document.getElementById("serverStatus");
+            const navStatusText = document.getElementById("navStatusText");
+            const navStatusDot = document.getElementById("navStatusDot");
+            const refreshStatus = document.getElementById("refreshStatus");
+            let statusRequestId = 0;
+
+            async function fetchServerStatus() {
+                const requestId = ++statusRequestId;
+                serverStatus.textContent = "正在检测……";
+                navStatusText.textContent = "检测中";
+                navStatusDot.className = "status-dot";
+
+                const controller = new AbortController();
+                const timeout = setTimeout(() => controller.abort(), 7000);
+
+                try {
+                    const response = await fetch("https://api.mcsrvstat.us/3/4v4d.top", {
+                        signal: controller.signal,
+                        headers: { Accept: "application/json" }
+                    });
+                    if (!response.ok) throw new Error("Status request failed");
+                    const data = await response.json();
+                    if (requestId !== statusRequestId) return;
+
+                    if (data.online) {
+                        const online = Number.isFinite(data.players?.online) ? data.players.online : 0;
+                        const max = data.players?.max ?? "?";
+                        serverStatus.textContent = `服务器在线 · ${online / 2} / ${max} 位玩家在线`;
+                        navStatusText.textContent = `${online /2} 人在线`;
+                        navStatusDot.className = "status-dot online";
+                    } else {
+                        serverStatus.textContent = "服务器暂时离线 · 管理员正在解决";
+                        navStatusText.textContent = "暂时离线";
+                        navStatusDot.className = "status-dot offline";
+                    }
+                } catch (error) {
+                    if (requestId !== statusRequestId) return;
+                    serverStatus.textContent = "状态暂时未知 · IP 仍然可以复制";
+                    navStatusText.textContent = "状态未知";
+                    navStatusDot.className = "status-dot";
+                } finally {
+                    clearTimeout(timeout);
+                }
+            }
+
+            refreshStatus.addEventListener("click", fetchServerStatus);
+            fetchServerStatus();
+
             if (window.lucide) lucide.createIcons();
 
             const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -1923,45 +1971,6 @@
                 }
             });
 
-            const serverStatus = document.getElementById("serverStatus");
-            const navStatusText = document.getElementById("navStatusText");
-            const navStatusDot = document.getElementById("navStatusDot");
-
-            async function fetchServerStatus() {
-                serverStatus.textContent = "正在检测……";
-                navStatusText.textContent = "检测中";
-                navStatusDot.className = "status-dot";
-
-                const controller = new AbortController();
-                const timeout = setTimeout(() => controller.abort(), 7000);
-
-                try {
-                    const response = await fetch("https://api.mcsrvstat.us/3/4v4d.top", { signal: controller.signal });
-                    if (!response.ok) throw new Error("Status request failed");
-                    const data = await response.json();
-
-                    if (data.online) {
-                        const online = data.players?.online ?? 0;
-                        const max = data.players?.max ?? "?";
-                        serverStatus.textContent = `服务器在线 · ${online / 2} / ${max} 位玩家在线`;
-                        navStatusText.textContent = `${online / 2} 人在线`;
-                        navStatusDot.className = "status-dot online";
-                    } else {
-                        serverStatus.textContent = "服务器暂时离线 · 管理员正在解决";
-                        navStatusText.textContent = "暂时离线";
-                        navStatusDot.className = "status-dot offline";
-                    }
-                } catch (error) {
-                    serverStatus.textContent = "状态暂时未知 · IP 仍然可以复制";
-                    navStatusText.textContent = "状态未知";
-                    navStatusDot.className = "status-dot";
-                } finally {
-                    clearTimeout(timeout);
-                }
-            }
-
-            document.getElementById("refreshStatus").addEventListener("click", fetchServerStatus);
-            fetchServerStatus();
         });
     </script>
 </body>
