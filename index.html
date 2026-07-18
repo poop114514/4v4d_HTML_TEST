@@ -1445,7 +1445,7 @@
             </a>
             <ul class="nav__links">
                 <li><a href="#features">为什么来</a></li>
-                <li><a href="#signal">世界计划</a></li>
+                <li><a href="#signal">世界の改变</a></li>
                 <li><a href="#join">进服方法</a></li>
                 <li><a href="#contact">联系我们</a></li>
                 <li><a href="https://4v4d.uk/">玩家对骂</a></li>
@@ -1526,13 +1526,13 @@
                         <span class="feature-card__tag">Rules.jar 已卸载</span>
                         <div class="feature-card__icon"><i data-lucide="swords"></i></div>
                         <h3>无政府</h3>
-                        <p>没有领地插件替你关门，也没有 NPC 告诉你下一步。盟友、仇敌与凌晨三点的背叛，全由玩家亲手制造。</p>
+                        <p>没有领地插件替你关门，也没有 NPC 告诉你下一步。玩家、仇敌与凌晨三点的TNT，全由玩家亲手制造。</p>
                     </article>
                     <article class="feature-card">
                         <div class="feature-card__icon"><i data-lucide="tree-pine"></i></div>
                         <h3>硬核生存</h3>
                         <p>从出生点的一无所有开始。找食物、藏基地、识别“我很友善”到底是真话还是本服最短的笑话。</p>
-                        <p>从0开始，<strong>操</strong><del>（客家话）</del>基地，获取更好的装备</p>
+                        <p>从0开始，建基地，扬基地，获取更好的装备</p>
                     </article>
                     <article class="feature-card">
                         <div class="feature-card__icon"><i data-lucide="copy-plus"></i></div>
@@ -1591,7 +1591,7 @@
             <div class="section__inner join-layout">
                 <div class="join-intro">
                     <p class="section-kicker">Four steps. Zero paperwork.</p>
-                    <h2>进服不需要面试。</h2>
+                    <h2>进服不需要“面试”。</h2>
                     <p>准备好 Java 版《我的世界》 26.1.2。四步之后，你就会从“路过看看”变成“怎么凌晨三点了”。</p>
                     <a class="button button--dark" href="HTjoin.html">查看完整教程 <i data-lucide="arrow-up-right"></i></a>
                 </div>
@@ -1629,7 +1629,7 @@
                     <button type="button" data-copy-ip>复制并上线 →</button>
                 </div>
                 <div class="server-meta">
-                    <span id="serverStatus" aria-live="polite">正在向服务器敲门……</span>
+                    <span id="serverStatus" aria-live="polite">正在检测……</span>
                     <button type="button" id="refreshStatus">重新检测</button>
                 </div>
             </div>
@@ -1928,7 +1928,7 @@
             const navStatusDot = document.getElementById("navStatusDot");
 
             async function fetchServerStatus() {
-                serverStatus.textContent = "正在向服务器敲门……";
+                serverStatus.textContent = "正在检测……";
                 navStatusText.textContent = "检测中";
                 navStatusDot.className = "status-dot";
 
@@ -1943,11 +1943,11 @@
                     if (data.online) {
                         const online = data.players?.online ?? 0;
                         const max = data.players?.max ?? "?";
-                        serverStatus.textContent = `服务器在线 · ${online / 2} / ${max} 位玩家正在制造剧情`;
+                        serverStatus.textContent = `服务器在线 · ${online / 2} / ${max} 位玩家在线`;
                         navStatusText.textContent = `${online / 2} 人在线`;
                         navStatusDot.className = "status-dot online";
                     } else {
-                        serverStatus.textContent = "服务器暂时离线 · 管理员可能正在重启宇宙";
+                        serverStatus.textContent = "服务器暂时离线 · 管理员正在解决";
                         navStatusText.textContent = "暂时离线";
                         navStatusDot.className = "status-dot offline";
                     }
