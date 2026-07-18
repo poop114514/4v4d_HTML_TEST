@@ -1139,6 +1139,82 @@
             stroke-width: 2.4;
         }
 
+        .support-ad {
+            border-bottom: var(--border);
+            background: var(--theme-soft);
+        }
+
+        .support-ad__inner {
+            display: grid;
+            grid-template-columns: minmax(280px, 34%) minmax(0, 1fr);
+            min-height: 520px;
+        }
+
+        .support-ad__visual {
+            position: relative;
+            min-height: 520px;
+            overflow: hidden;
+            border-right: var(--border);
+            background: var(--theme);
+        }
+
+        .support-ad__visual::after {
+            content: "支持服务器吧，孩子要吃不起饭了";
+            position: absolute;
+            right: -2px;
+            bottom: 26px;
+            padding: 10px 16px;
+            border: var(--border);
+            border-right: 0;
+            color: var(--white);
+            background: var(--ink);
+            font-family: "Archivo Black", "Noto Sans SC", sans-serif;
+            font-size: clamp(.72rem, 1.1vw, .95rem);
+            letter-spacing: .08em;
+        }
+
+        .support-ad__visual img {
+            width: 100%;
+            height: 100%;
+            min-height: inherit;
+            object-fit: cover;
+            filter: saturate(.9) contrast(1.06);
+        }
+
+        .support-ad__content {
+            display: flex;
+            min-width: 0;
+            padding: clamp(28px, 4vw, 58px);
+            flex-direction: column;
+            gap: 26px;
+        }
+
+        .support-ad__title {
+            margin: 0;
+            font-family: "Archivo Black", "Noto Sans SC", sans-serif;
+            font-size: clamp(2rem, 5vw, 5.2rem);
+            line-height: .95;
+            letter-spacing: -.045em;
+        }
+
+        .support-ad__slot {
+            display: flex;
+            width: 100%;
+            min-height: 400px;
+            flex: 1 0 auto;
+            align-items: center;
+            justify-content: center;
+            overflow: visible;
+            border: var(--border);
+            background-color: var(--white);
+        }
+
+        .support-ad__slot > .adsbygoogle {
+            display: block;
+            width: 100%;
+            min-height: 400px;
+        }
+
         footer {
             padding: 46px 28px;
             color: var(--white);
@@ -1228,6 +1304,16 @@
 
             .join-intro {
                 position: static;
+            }
+
+            .support-ad__inner {
+                grid-template-columns: 1fr;
+            }
+
+            .support-ad__visual {
+                min-height: 280px;
+                border-right: 0;
+                border-bottom: var(--border);
             }
         }
 
@@ -1392,6 +1478,14 @@
             .community__item + .community__item {
                 border-top: var(--border);
                 border-left: 0;
+            }
+
+            .support-ad__visual {
+                min-height: 220px;
+            }
+
+            .support-ad__content {
+                padding: 28px 18px;
             }
 
             .footer__inner {
@@ -1646,6 +1740,20 @@
             </a>
         </section>
     </main>
+
+    <section class="support-ad" aria-labelledby="support-ad-title">
+        <div class="support-ad__inner">
+            <div class="support-ad__visual" aria-hidden="true">
+                <img src="https://cn-nb1.rains3.com/root/images/f7785af2-5ffd-4efe-bd3a-121d72d7daea.webp" alt="" loading="lazy">
+            </div>
+            <div class="support-ad__content">
+                <h2 id="support-ad-title" class="support-ad__title"><span class="hero__line--yellow">//</span>Support Our Project</h2>
+                <div id="google-ad-support" class="support-ad__slot" role="region" aria-label="Google advertisement">
+                    <li>1</li>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <footer>
         <div class="footer__inner">
